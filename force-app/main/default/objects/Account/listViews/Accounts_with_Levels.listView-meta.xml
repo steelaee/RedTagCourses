@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accounts_with_Levels</fullName>
+    <booleanFilter>1 OR 2 OR 3</booleanFilter>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.INDUSTRY</columns>
+    <columns>ACCOUNT.TYPE</columns>
+    <columns>YEAR_STARTED</columns>
+    <columns>Account_Level__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Account_Level__c</field>
+        <operation>equals</operation>
+        <value>High</value>
+    </filters>
+    <filters>
+        <field>Account_Level__c</field>
+        <operation>equals</operation>
+        <value>Mid</value>
+    </filters>
+    <filters>
+        <field>Account_Level__c</field>
+        <operation>equals</operation>
+        <value>Low</value>
+    </filters>
+    <label>Accounts with levels</label>
+</ListView>

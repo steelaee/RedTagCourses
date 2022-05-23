@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Support_Plan_Expiration_Date__c</fullName>
+    <description>Expiration date of current support plan</description>
+    <externalId>false</externalId>
+    <inlineHelpText>When is the current support plan due for renewal?</inlineHelpText>
+    <label>Support Plan Expiration Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Date</type>
+</CustomField>

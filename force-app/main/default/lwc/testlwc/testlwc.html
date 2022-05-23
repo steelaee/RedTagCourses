@@ -1,0 +1,14 @@
+<template>
+    <div class="slds-box" style="height: 500px;">
+        <template if:true={show}>
+            <lightning-datatable key-field="id" columns={columns} data={data}>
+
+            </lightning-datatable>
+        </template>
+    </div>
+    <div class="slds-box">
+        <lightning-button label="Show" onclick={handleShow}></lightning-button>
+    </div>
+
+
+</template>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Close_Reason__c</fullName>
+    <description>Created for the VP of Global Sales to track wins and losses.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>When you close the opportunity, select one or more values that best describe your reason for closing.</inlineHelpText>
+    <label>Close Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Lost: Competitor</fullName>
+                <default>false</default>
+                <label>Lost: Competitor</label>
+            </value>
+            <value>
+                <fullName>Lost: Price</fullName>
+                <default>false</default>
+                <label>Lost: Price</label>
+            </value>
+            <value>
+                <fullName>Lost: Product Features</fullName>
+                <default>false</default>
+                <label>Lost: Product Features</label>
+            </value>
+            <value>
+                <fullName>Lost: Project Abandoned</fullName>
+                <default>false</default>
+                <label>Lost: Project Abandoned</label>
+            </value>
+            <value>
+                <fullName>Lost: Company Budget Constraints</fullName>
+                <default>false</default>
+                <label>Lost: Company Budget Constraints</label>
+            </value>
+            <value>
+                <fullName>Lost: Other Reason</fullName>
+                <default>false</default>
+                <label>Lost: Other Reason</label>
+            </value>
+            <value>
+                <fullName>Won: Competitor</fullName>
+                <default>false</default>
+                <label>Won: Competitor</label>
+            </value>
+            <value>
+                <fullName>Won: Price</fullName>
+                <default>false</default>
+                <label>Won: Price</label>
+            </value>
+            <value>
+                <fullName>Won: Product Features</fullName>
+                <default>false</default>
+                <label>Won: Product Features</label>
+            </value>
+            <value>
+                <fullName>Won: Other Reason</fullName>
+                <default>false</default>
+                <label>Won: Other Reason</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Lost: Competitor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Lost: Price</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Lost: Product Features</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Lost: Project Abandoned</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Lost: Company Budget Constraints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Lost: Other Reason</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Won: Competitor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Won: Price</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Won: Product Features</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Won</controllingFieldValue>
+            <valueName>Won: Other Reason</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

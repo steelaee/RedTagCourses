@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Suggestion_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Suggestion Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customer Service</fullName>
+                <default>false</default>
+                <label>Customer Service</label>
+            </value>
+            <value>
+                <fullName>Employee Services</fullName>
+                <default>false</default>
+                <label>Employee Services</label>
+            </value>
+            <value>
+                <fullName>Facilities/ IT</fullName>
+                <default>false</default>
+                <label>Facilities/ IT</label>
+            </value>
+            <value>
+                <fullName>Kitchen Snacks</fullName>
+                <default>false</default>
+                <label>Kitchen Snacks</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
