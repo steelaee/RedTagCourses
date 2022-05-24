@@ -13,18 +13,24 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
     }
     public override void afterUpdate() {
         List<Opportunity> oppsToUpdate = new List<Opportunity>();
-        Map<Id, Account> myMap = new Map<Id, Account>();
+        Map<Id, Account> mapAccs = new Map<Id, Account>();
 
         for(Account acc : (List<Account>)Trigger.New){
             if(acc.Name != ((Map<Id, Account>)Trigger.OldMap).get(acc.Id).Name){
-                myMap.put(acc.Id, acc);
+                mapAccs.put(acc.Id, acc);
             }
         }
         
-        List<Opportunity> oppsNew = [SELECT Name, AccountId FROM Opportunity WHERE AccountId IN :myMap.keySet()];
-        for(Opportunity opp : oppsNew){
-            if(!opp.Name.contains(myMap.get(opp.AccountId).Name)){
-                opp.Name = myMap.get(opp.AccountId).Name + ' ' + myMap.get(opp.AccountId).CreatedDate.month() + ' ' + myMap.get(opp.AccountId).CreatedDate.year();
+        List<Opportunity> newOpps = [
+            SELECT Name, AccountId 
+            FROM Opportunity 
+            WHERE AccountId 
+            IN :myMap.keySet()
+        ];
+        
+        for(Opportunity opp : newOpps){
+            if(!opp.Name.contains(mapAccs.get(opp.AccountId).Name)){
+                opp.Name = mapAccs.get(opp.AccountId).Name + ' ' + mapAccs.get(opp.AccountId).CreatedDate.month() + ' ' + mapAccs.get(opp.AccountId).CreatedDate.year();
                 oppsToUpdate.add(opp);
             }
         }
@@ -32,13 +38,26 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
         update oppsToUpdate;
     }
     public override void beforeDelete() {
-        List<Opportunity> oppsToDelete = [SELECT Name, Amount, AccountId FROM Opportunity 
-        WHERE AccountId IN :((Map<Id, Account>)Trigger.OldMap).keySet()];
-        EmailTemplate et = [SELECT id, body, subject FROM EmailTemplate WHERE Name =: 'Account Deletion Template' LIMIT 1];
+        List<Opportunity> oppsToDelete = [
+            SELECT Name, Amount, AccountId FROM Opportunity 
+            WHERE AccountId 
+            IN :((Map<Id, Account>)Trigger.OldMap).keySet()
+        ];
+        EmailTemplate et = [
+            SELECT id, body, subject
+            FROM EmailTemplate 
+            WHERE Name =: 'Account Deletion Template' 
+            LIMIT 1
+        ];
 
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.setTemplateId(et.Id);
-        User activeUser = [SELECT Email FROM User WHERE UserName =: UserInfo.getUserName() LIMIT 1];
+        User activeUser = [
+            SELECT Email 
+            FROM User 
+            WHERE UserName =: UserInfo.getUserName() 
+            LIMIT 1
+        ];
         message.setTargetObjectId(activeUser.Id);
         message.saveAsActivity = false;
 
