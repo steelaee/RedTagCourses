@@ -32,8 +32,7 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
         Map<Id, Opportunity> mapOpps = getMapOppsByIdOpp(getMapOppIdSalesItems(oldItems).keySet());
         
         for(Sales_Item__c si : oldItems){
-            Opportunity opp = mapOpps.get(si.Opportunity__c);
-            opp.Current_Sales_Items_Number__c--;
+            mapOpps.get(si.Opportunity__c).Current_Sales_Items_Number__c--;
         }
 
         update mapOpps.values();
