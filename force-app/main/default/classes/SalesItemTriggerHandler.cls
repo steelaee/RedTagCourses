@@ -12,7 +12,7 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
     }
     public override void beforeInsert(){
         Map<Id, List<Sales_Item__c>> mapSalesItemsByOppId = getMapOppIdSalesItems(newItems);
-        Map<Id, Opportunity> mapOpps = getMapIdOpp(mapSalesItemsByOppId.keySet());
+        Map<Id, Opportunity> mapOpps = getMapOppsByIdOpp(mapSalesItemsByOppId.keySet());
 
         for(Sales_Item__c si : newItems){
             Opportunity opp = mapOpps.get(si.Opportunity__c);
@@ -29,7 +29,7 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
         update mapOpps.values();
     }
     public override void beforeDelete(){
-        Map<Id, Opportunity> mapOpps = getMapIdOpp(getMapOppIdSalesItems(oldItems).keySet());
+        Map<Id, Opportunity> mapOpps = getMapOppsByIdOpp(getMapOppIdSalesItems(oldItems).keySet());
         
         for(Sales_Item__c si : oldItems){
             Opportunity opp = mapOpps.get(si.Opportunity__c);
@@ -59,7 +59,7 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
             return;
         }
 
-        Map<Id, Opportunity> mapNewOpps = getMapIdOpp(setOppIds);
+        Map<Id, Opportunity> mapNewOpps = getMapOppsByIdOpp(setOppIds);
         for(Sales_Item__c si : newItems){
             Integer salesItemsNum = mapSalesItemsByOppId.get(si.Opportunity__c).size();
             Opportunity newOpp = mapNewOpps.get(si.Opportunity__c);
@@ -91,7 +91,7 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
         return mapSalesItemsByOppId;
     }
     
-    private Map<Id, Opportunity> getMapIdOpp(Set<Id> setOppIds){
+    private Map<Id, Opportunity> getMapOppsByIdOpp(Set<Id> setOppIds){
         return new Map<Id, Opportunity>([
             SELECT Name, Sales_Item_Num__c, Sales_Items_Capacity__c, Current_Sales_Items_Number__c 
             FROM Opportunity 
