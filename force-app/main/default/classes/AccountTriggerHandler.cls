@@ -13,24 +13,23 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
     }
     public override void afterUpdate() {
         List<Opportunity> oppsToUpdate = new List<Opportunity>();
-        Map<Id, Account> mapAccs = new Map<Id, Account>();
+        Map<Id, Account> myMap = new Map<Id, Account>();
 
         for(Account acc : (List<Account>)Trigger.New){
             if(acc.Name != ((Map<Id, Account>)Trigger.OldMap).get(acc.Id).Name){
-                mapAccs.put(acc.Id, acc);
+                myMap.put(acc.Id, acc);
             }
         }
         
-        List<Opportunity> newOpps = [
+        List<Opportunity> oppsNew = [
             SELECT Name, AccountId 
             FROM Opportunity 
-            WHERE AccountId 
-            IN :myMap.keySet()
+            WHERE AccountId IN :myMap.keySet()
         ];
-        
-        for(Opportunity opp : newOpps){
-            if(!opp.Name.contains(mapAccs.get(opp.AccountId).Name)){
-                opp.Name = mapAccs.get(opp.AccountId).Name + ' ' + mapAccs.get(opp.AccountId).CreatedDate.month() + ' ' + mapAccs.get(opp.AccountId).CreatedDate.year();
+
+        for(Opportunity opp : oppsNew){
+            if(!opp.Name.contains(myMap.get(opp.AccountId).Name)){
+                opp.Name = myMap.get(opp.AccountId).Name + ' ' + myMap.get(opp.AccountId).CreatedDate.month() + ' ' + myMap.get(opp.AccountId).CreatedDate.year();
                 oppsToUpdate.add(opp);
             }
         }
@@ -39,17 +38,17 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
     }
     public override void beforeDelete() {
         List<Opportunity> oppsToDelete = [
-            SELECT Name, Amount, AccountId FROM Opportunity 
-            WHERE AccountId 
-            IN :((Map<Id, Account>)Trigger.OldMap).keySet()
+            SELECT Name, Amount, AccountId 
+            FROM Opportunity 
+            WHERE AccountId IN :((Map<Id, Account>)Trigger.OldMap).keySet()
         ];
+
         EmailTemplate et = [
-            SELECT id, body, subject
+            SELECT id, body, subject 
             FROM EmailTemplate 
             WHERE Name =: 'Account Deletion Template' 
             LIMIT 1
         ];
-
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.setTemplateId(et.Id);
         User activeUser = [
@@ -61,20 +60,23 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
         message.setTargetObjectId(activeUser.Id);
         message.saveAsActivity = false;
 
-        String htmlBody = et.body;
         String opps_list = '';
         Integer i = 0;
-
-        for(Opportunity opp : oppsToDelete){
-            i++;
-            opps_list += i + '. ' + opp.id + ', ' + opp.Name + ', ' + opp.amount + '.\n';
-            
-            htmlBody =  htmlBody.replace('{AccountName}', ((Map<Id, Account>)Trigger.OldMap).get(opp.AccountId).Name);
+        
+        for(Account acc : (List<Account>)Trigger.Old){
+            for(Opportunity opp : [SELECT Name, Amount FROM Opportunity WHERE AccountId=:acc.Id]){
+                i++;
+                opps_list += i + '. ' + opp.id + ', ' + opp.Name + ', ' + opp.amount + '.\n';
+            }
+            String htmlBody = et.body;
+            htmlBody =  htmlBody.replace('{AccountName}', acc.Name);
             htmlBody = htmlBody.replace('{opps_list}', opps_list);
             htmlBody = htmlBody.replace('{BestRegards}', Label.best_regards);
             message.setPlainTextBody(htmlBody);
             message.setToAddresses(new String[] {activeUser.Email});
             Messaging.sendEmail(new Messaging.SingleEmailMessage[]{message});
+            opps_list = '';
+            i = 0;
         }
 
         delete oppsToDelete;
