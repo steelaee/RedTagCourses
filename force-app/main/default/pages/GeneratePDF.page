@@ -1,0 +1,10 @@
+<apex:page standardController="Opportunity" extensions="ContractPDFController">
+    <apex:include pageName="CreateContractPDF">
+
+    </apex:include>
+    <apex:form>
+        <apex:commandButton value="Save" action="{!generatePDF}">
+
+        </apex:commandButton>
+    </apex:form>
+</apex:page>
