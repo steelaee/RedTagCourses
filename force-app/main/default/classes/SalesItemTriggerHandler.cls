@@ -58,11 +58,11 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
             return;
         }
 
-        Map<Id, Opportunity> mapNewOpps = getMapOppsByIdOpp(setOppIds);
+        Map<Id, Opportunity> mapOpps = getMapOppsByIdOpp(setOppIds);
         for(Sales_Item__c si : newItems){
             Integer salesItemsNum = mapSalesItemsByOppId.get(si.Opportunity__c).size();
-            Opportunity newOpp = mapNewOpps.get(si.Opportunity__c);
-            Opportunity oldOpp = mapNewOpps.get(mapOldItems.get(si.Id).Opportunity__c);
+            Opportunity newOpp = mapOpps.get(si.Opportunity__c);
+            Opportunity oldOpp = mapOpps.get(mapOldItems.get(si.Id).Opportunity__c);
 
             if(newOpp.Sales_Items_Capacity__c < newOpp.Current_Sales_Items_Number__c + salesItemsNum){
                 mapNewItems.get(si.Id).addError(Label.sales_item_capacity_full);
@@ -73,14 +73,13 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
             }
         }
 
-        update mapNewOpps.values();
+        update mapOpps.values();
     }
     
     private Map<Id, List<Sales_Item__c>> getMapOppIdSalesItems(List<Sales_Item__c> items){
         Map<Id, List<Sales_Item__c>> mapSalesItemsByOppId = new Map<Id, List<Sales_Item__c>>();
 
         for(Sales_Item__c si : items){
-
             if(!mapSalesItemsByOppId.containsKey(si.Opportunity__c)){
                 mapSalesItemsByOppId.put(si.Opportunity__c, new List<Sales_Item__c>());
             }
