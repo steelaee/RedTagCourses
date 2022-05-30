@@ -11,20 +11,20 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
         mapOldItems = (Map<Id, Sales_Item__c>)Trigger.OldMap;
     }
     public override void beforeInsert(){
-        Map<Id, Integer> mapSalesItemsByOppId = new Map<Id, Integer>();
+        Map<Id, Integer> mapSalesItemsNumByOppId = new Map<Id, Integer>();
 
         for(Sales_Item__c si : newItems){
-            if(!mapSalesItemsByOppId.containsKey(si.Opportunity__c)){
-                mapSalesItemsByOppId.put(si.Opportunity__c, 1);
+            if(!mapSalesItemsNumByOppId.containsKey(si.Opportunity__c)){
+                mapSalesItemsNumByOppId.put(si.Opportunity__c, 1);
             }
-            Integer num = mapSalesItemsByOppID.get(si.Opportunity__c);
-            mapSalesItemsByOppId.put(si.Opportunity__c, num++);
+            Integer num = mapSalesItemsNumByOppId.get(si.Opportunity__c);
+            mapSalesItemsNumByOppId.put(si.Opportunity__c, num++);
         }
-        Map<Id, Opportunity> mapOpps = getMapIdOpp(mapSalesItemsByOppId.keySet());
-        System.debug(mapSalesItemsByOppID);
+        Map<Id, Opportunity> mapOpps = getMapIdOpp(mapSalesItemsNumByOppId.keySet());
+
         for(Sales_Item__c si : newItems){
             Opportunity opp = mapOpps.get(si.Opportunity__c);
-            Integer oppItemsNum = mapSalesItemsByOppId.get(si.Opportunity__c);
+            Integer oppItemsNum = mapSalesItemsNumByOppId.get(si.Opportunity__c);
 
             if(opp.Sales_Item_Num__c + oppItemsNum > opp.Sales_Items_Capacity__c){
                 si.addError(Label.sales_item_capacity_full);
