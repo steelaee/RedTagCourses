@@ -2,10 +2,10 @@
     extensions="ContractPDFController" renderAs="PDF">
     <apex:stylesheet value="{!$Resource.contractPDFstyle}" />
 
-    <c:ContractHeaderComponent ></c:ContractHeaderComponent>
+    <c:ContractHeaderComponent></c:ContractHeaderComponent>
     <h1 class="contract-between">Contract between {!customerName} and {!sellerCompanyName}</h1>
 
-    <c:ContractHeaderComponent ></c:ContractHeaderComponent>
+    <c:ContractHeaderComponent></c:ContractHeaderComponent>
     <div style="page-break-after:always">
         <h1>{!$Label.terms}</h1>
         <ol>
@@ -17,8 +17,8 @@
         </ol>
     </div>
 
-    <c:ContractHeaderComponent ></c:ContractHeaderComponent>
-    <apex:pageBlock >
+    <c:ContractHeaderComponent></c:ContractHeaderComponent>
+    <apex:pageBlock>
         <h2>Subject of contract:</h2>
         <apex:pageBlockTable styleClass="table" value="{!oppProducts}" var="prod">
             <apex:column headerClass="head" styleClass="td" value="{!prod.Name}" />
