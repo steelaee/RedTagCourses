@@ -15,31 +15,28 @@ public with sharing class ContractPDFController {
         customerName = [SELECT Name FROM Contact WHERE Id=:contr.CustomerSignedId LIMIT 1].Name;
     }
     @AuraEnabled
-    public static Blob generatePDF(){
+    public static Id generatePDF(Id recordId){
         
         String fullUrl = URL.getSalesforceBaseUrl().toExternalForm() + 
             '/apex/CreateContractPDF?core.apexpages.request.devconsole=1&id=' + ApexPages.currentPage().getParameters().get('Id');
 
         PageReference p = new PageReference(fullUrl);
+        
+        ContentVersion v = new ContentVersion();
+        v.versionData = p.getContentAsPdf();
+        v.title = 'Contr.pdf';
+        v.pathOnClient = 'Contr.pdf';
+        insert v;
 
-        try {
-            ContentVersion v = new ContentVersion();
-            v.versionData = p.getContentAsPdf();
-            v.title = 'Contr.pdf';
-            v.pathOnClient = 'Contr.pdf';
-            insert v;
+        Id docId = [SELECT contentDocumentId FROM ContentVersion WHERE Id=:v.Id].contentDocumentId;
+        ContentDocumentLink docLink = new ContentDocumentLink();
+        docLink.contentDocumentId = docId;
+        docLink.shareType = 'I';
+        docLink.linkedEntityId = recordId;
+        docLink.visibility = 'AllUsers';
 
-            String versionId = [SELECT contentDocumentId FROM ContentVersion WHERE Id=:v.Id].contentDocumentId;
-            ContentDocumentLink docLink = new ContentDocumentLink();
-            docLink.contentDocumentId = versionId;
-            docLink.shareType = 'I';
-            docLink.linkedEntityId = ApexPages.currentPage().getParameters().get('Id');
-            docLink.visibility = 'AllUsers';
-
-            insert docLink;
-        } catch (Exception e) {
-            System.debug(e.getmessage());
-        }
-        return p.getContentAsPdf();
+        insert docLink;
+        
+        return docId;
     }
 }
