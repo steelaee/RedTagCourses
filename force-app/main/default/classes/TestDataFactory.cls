@@ -30,7 +30,7 @@ public class TestDataFactory {
         List<Opportunity> opps = new List<Opportunity>();
         for(Integer i = 0; i < numOpps; i++){
             opps.add(new Opportunity(
-                Name = name + ' ' + i,
+                Name = name,
                 StageName = 'Prospecting',
                 CloseDate = System.today().addMonths(1),
                 Sales_Items_Capacity__c = siCapacity, 
@@ -41,10 +41,9 @@ public class TestDataFactory {
 
         List<Sales_Item__c> salesItems = new List<Sales_Item__c>();
         for(Opportunity opp : opps){
-            salesItems.addAll(createSalesItems('TestOppSi', 1, opp.Id, false));
+            salesItems.addAll(createSalesItems('TestOppSi', numSi, opp.Id, true));
         }
 
-        insert salesItems;
         return opps;
     }
 

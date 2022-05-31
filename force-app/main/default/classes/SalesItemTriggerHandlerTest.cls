@@ -7,11 +7,15 @@ private with sharing class SalesItemTriggerHandlerTest {
     }
     @isTest
     private static void testBeforeInsert(){
-        List<Opportunity> opps = [SELECT Name, Sales_Item_Num__c FROM Opportunity LIMIT 2];
+        List<Opportunity> opps = [
+            SELECT Name, Sales_Item_Num__c, Sales_Items_Capacity__c 
+            FROM Opportunity 
+            LIMIT 2
+        ];
         try {
             TestDataFactory.createSalesItems('TestSalesItem', 2, opps[0].Id, true);
         } catch (Exception e) {
-            System.assert(e.getMessage().contains('Sales Items Capacity is full!'));
+            System.assertEquals(e.getMessage().contains('Sales Items Capacity is full!'), true);
         }
 
         Test.startTest();
@@ -30,21 +34,29 @@ private with sharing class SalesItemTriggerHandlerTest {
         si.Opportunity__c = opps[1].Id;
         update si;
 
+        Id oldOppId = si.Opportunity__c;
+        update si;
+        
+        System.assertEquals(oldOppId, si.Opportunity__c);
         System.assertEquals(1, [SELECT Sales_Item_Num__c FROM Opportunity WHERE Id =: opps[0].Id][0].Sales_Item_Num__c);
         System.assertEquals(2, [SELECT Sales_Item_Num__c FROM Opportunity WHERE Id =: opps[1].Id][0].Sales_Item_Num__c);
 
-        Test.startTest();
+        Test.startTest();  
+
+        Id firstOppId = TestDataFactory.createOppsWithSalesItems('Testopp', 1, 2, 0)[0].Id;
+        Id secondOppId = TestDataFactory.createOppsWithSalesItems('Testopp2', 1, 1, 0)[0].Id;
         
-        List<Sales_Item__c> salesItems = TestDataFactory.createSalesItems('TestSalesItem2', 2, opps[0].Id, true);
+        List<Sales_Item__c> salesItems = TestDataFactory.createSalesItems(
+            'TestSalesItem2', 2, firstOppId, true
+        );
 
         try {
             for(Sales_Item__c si2 : salesItems){
-                si2.Opportunity__c = opps[1].Id;
+                si2.Opportunity__c = secondOppId;
             }
-
             update salesItems;
         } catch (Exception e) {
-            System.assert(e.getMessage().contains('Sales Items Capacity is full!'));
+            System.assertEquals(e.getMessage().contains('Sales Items Capacity is full!'), true);
         }
 
         Test.stopTest();
