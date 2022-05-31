@@ -52,22 +52,16 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
             WHERE AccountId IN : mapOldAccs.keySet()
         ];
 
-        // Map<Id, List<Opportunity>> mapOppsByAccId = new Map<Id, List<Opportunity>>();
-
-        // for(Opportunity opp : oppsToDelete){
-        //     if(!mapOppsByAccId.containsKey(opp.AccountId)){
-        //         mapOppsByAccId.put(opp.AccountId, new List<Opportunity>());
-        //     }
-        //     mapOppsByAccId.get(opp.AccountId).add(opp);
-        // }
-
         Map<Id, List<String>> mapOppDescByAccId = new Map<Id, List<String>>();
         
         for(Opportunity opp : oppsToDelete){
             if(!mapOppDescByAccId.containsKey(opp.AccountId)){
                 mapOppDescByAccId.put(opp.AccountId, new List<String>());
             }
-            mapOppDescByAccId.get(opp.AccountId).add(opp.id + ', ' + opp.Name + ', ' + opp.amount);
+            
+            mapOppDescByAccId.get(opp.AccountId).add(
+                (mapOppDescByAccId.get(opp.AccountId).size() + 1) + '. ' + opp.id + ', ' + opp.Name + ', ' + opp.amount
+            );
         }
 
         EmailTemplate et = [
@@ -92,13 +86,6 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
         message.setToAddresses(new String[] {activeUser.Email});
         
         for(Account acc : oldAccs){
-            // String opps_list = '';
-            // Integer i = 0;
-            // for(Opportunity opp : mapOppsByAccId.get(acc.Id)){
-            //     i++;
-            //     opps_list += i + '. ' + opp.id + ', ' + opp.Name + ', ' + opp.amount + '.\n';
-            // }
-
             String s = String.join(mapOppDescByAccId.get(acc.Id), '\n');
             
             String htmlBody = et.body;

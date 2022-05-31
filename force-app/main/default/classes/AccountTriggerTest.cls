@@ -2,7 +2,7 @@
 public with sharing class AccountTriggerTest {
     @TestSetup
     static void makeData(){
-        AccountTriggerTestFactory.generateAccounts(1, 'Illia');
+        TestDataFactory.generateAccounts(1, 'Illia');
     }
 
     @isTest
