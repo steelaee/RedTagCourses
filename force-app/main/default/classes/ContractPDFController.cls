@@ -14,23 +14,32 @@ public with sharing class ContractPDFController {
         sellerCompanyName = [SELECT Name FROM User WHERE Id=:contr.CompanySignedId LIMIT 1].Name;
         customerName = [SELECT Name FROM Contact WHERE Id=:contr.CustomerSignedId LIMIT 1].Name;
     }
-    public void generatePDF(){
-        String baseUrl = ApexPages.currentPage().getHeaders().get('Host');
-        String urlValue = ApexPages.currentPage().getUrl(); 
-        fullUrl = URL.getSalesforceBaseUrl().toExternalForm() + 
-            '/apex/CreateContractPDF?core.apexpages.request.devconsole=1&id=' + opp.Id;
+    @AuraEnabled
+    public static Blob generatePDF(){
+        
+        String fullUrl = URL.getSalesforceBaseUrl().toExternalForm() + 
+            '/apex/CreateContractPDF?core.apexpages.request.devconsole=1&id=' + ApexPages.currentPage().getParameters().get('Id');
 
-        insert new Attachment(
-            ContentType = 'application/pdf',
-            Name = 'Contract.pdf',  
-            ParentId = opp.Id,
-            Body = new PageReference(fullUrl).getContentAsPdf()
-        );
-    }
-    public PageReference showPreview(){
-        generatePDF();
         PageReference p = new PageReference(fullUrl);
-        p.setRedirect(true);
-        return p;
+
+        try {
+            ContentVersion v = new ContentVersion();
+            v.versionData = p.getContentAsPdf();
+            v.title = 'Contr.pdf';
+            v.pathOnClient = 'Contr.pdf';
+            insert v;
+
+            String versionId = [SELECT contentDocumentId FROM ContentVersion WHERE Id=:v.Id].contentDocumentId;
+            ContentDocumentLink docLink = new ContentDocumentLink();
+            docLink.contentDocumentId = versionId;
+            docLink.shareType = 'I';
+            docLink.linkedEntityId = ApexPages.currentPage().getParameters().get('Id');
+            docLink.visibility = 'AllUsers';
+
+            insert docLink;
+        } catch (Exception e) {
+            System.debug(e.getmessage());
+        }
+        return p.getContentAsPdf();
     }
 }
