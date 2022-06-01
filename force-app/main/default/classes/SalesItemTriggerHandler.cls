@@ -20,7 +20,7 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
             Integer num = mapSalesItemsNumByOppId.get(si.Opportunity__c) + 1;
             mapSalesItemsNumByOppId.put(si.Opportunity__c, num);
         }
-        Map<Id, Opportunity> mapOpps = getMapIdOpp(mapSalesItemsNumByOppId.keySet());
+        Map<Id, Opportunity> mapOpps = getMapOppsByIdOpp(mapSalesItemsNumByOppId.keySet());
 
         for(Sales_Item__c si : newItems){
             Opportunity opp = mapOpps.get(si.Opportunity__c);
@@ -55,19 +55,33 @@ public with sharing class SalesItemTriggerHandler extends TriggerHandler{
             return;
         }
 
-        Map<Id, Opportunity> mapNewOpps = getMapIdOpp(setOppIds);
+        Map<Id, Opportunity> mapOpps = getMapOppsByIdOpp(setOppIds);
         for(Sales_Item__c si : newItems){
             Integer salesItemsNum = mapSalesItemsByOppId.get(si.Opportunity__c);
-            Opportunity newOpp = mapNewOpps.get(si.Opportunity__c);
+            Opportunity newOpp = mapOpps.get(si.Opportunity__c);
 
             if(newOpp.Sales_Items_Capacity__c < newOpp.Sales_Item_Num__c + salesItemsNum){
                 mapNewItems.get(si.Id).addError(Label.sales_item_capacity_full);
             }
         }
 
-        update mapNewOpps.values();
+        update mapOpps.values();
     }
-    private Map<Id, Opportunity> getMapIdOpp(Set<Id> setOppIds){
+    
+    private Map<Id, List<Sales_Item__c>> getMapOppIdSalesItems(List<Sales_Item__c> items){
+        Map<Id, List<Sales_Item__c>> mapSalesItemsByOppId = new Map<Id, List<Sales_Item__c>>();
+
+        for(Sales_Item__c si : items){
+            if(!mapSalesItemsByOppId.containsKey(si.Opportunity__c)){
+                mapSalesItemsByOppId.put(si.Opportunity__c, new List<Sales_Item__c>());
+            }
+            mapSalesItemsByOppId.get(si.Opportunity__c).add(si);
+        }
+
+        return mapSalesItemsByOppId;
+    }
+    
+    private Map<Id, Opportunity> getMapOppsByIdOpp(Set<Id> setOppIds){
         return new Map<Id, Opportunity>([
             SELECT Name, Sales_Item_Num__c, Sales_Items_Capacity__c, Current_Sales_Items_Number__c 
             FROM Opportunity 
