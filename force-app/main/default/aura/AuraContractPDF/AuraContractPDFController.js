@@ -1,5 +1,5 @@
 ({
-    doInit : function(component, event, helper) {
+    savePDF : function(component, event, helper) {
         helper.generatePDFHelper(component);
     }
 })

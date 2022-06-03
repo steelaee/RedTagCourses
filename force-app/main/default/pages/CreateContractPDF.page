@@ -1,11 +1,10 @@
 <apex:page sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" standardController="Opportunity"
-    extensions="ContractPDFController" renderAs="PDF">
+    extensions="CreateContractPDFController" renderAs="PDF">
     <apex:stylesheet value="{!$Resource.contractPDFstyle}" />
 
     <c:ContractHeaderComponent></c:ContractHeaderComponent>
     <h1 class="contract-between">Contract between {!customerName} and {!sellerCompanyName}</h1>
 
-    <c:ContractHeaderComponent></c:ContractHeaderComponent>
     <div style="page-break-after:always">
         <h1>{!$Label.terms}</h1>
         <ol>

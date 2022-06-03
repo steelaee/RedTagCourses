@@ -1,4 +1,16 @@
-<aura:component implements="force:lightningQuickAction, force:hasRecordId" controller="ContractPDFController">
-    <aura:attribute name='accList' type='object'/>
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-</aura:component>	
+<aura:component implements="lightning:hasPageReference, forceCommunity:availableForAllPageTypes, force:lightningQuickAction, force:hasRecordId, flexipage:availableForAllPageTypes" controller="GeneratePDF">
+    <aura:html tag="style">
+        .slds-modal__footer{
+        display:none !important;
+        }      
+        .slds-modal__content{
+        height:initial !important;
+        max-height:400px !important;
+        }
+    </aura:html>
+    <aura:attribute name='contract' type='String'/> 
+    <aura:handler name="init" value="{!this}" action="{!c.savePDF}"/>
+    <lightning:card>
+        <lightning:fileCard fileId='{!v.contract}' description="Your Contract"/>
+    </lightning:card>
+</aura:component>

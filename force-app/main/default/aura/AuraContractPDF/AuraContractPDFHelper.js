@@ -7,7 +7,7 @@
         action.setCallback(this, function(response){
             var state = response.getState();
             if(state == 'SUCCESS'){
-                component.set('v.accList', response.getReturnValue());
+                component.set('v.contract', response.getReturnValue());
             }
         });
 
