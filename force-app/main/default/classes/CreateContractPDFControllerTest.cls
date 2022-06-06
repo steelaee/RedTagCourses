@@ -1,19 +1,12 @@
 @isTest
-public with sharing class GeneratePDFTest {
+public with sharing class CreateContractPDFControllerTest {
     @isTest
     private static void createPDFControllerTest(){
         User u = TestDataFactory.createUser('testaskofifjpoaisdf@test.com');
 
-        Contact ct = new Contact(
-            LastName = 'Sepianov'
-        );
-        insert ct;
+        Contact ct = TestDataFactory.createContacts(1, 'TestContact', true)[0];
 
-        Account acc = new Account(
-            Name = 'TestAcc',
-            Rating = 'Proscpecting'
-        );
-        insert acc;
+        Account acc = TestDataFactory.createAccounts(1, 'TestAccount', 'Prospecting', true)[0];
 
         Contract contr = TestDataFactory.createContract(acc.Id, u.Id, ct.Id);
         Opportunity opp = TestDataFactory.createOppWithProduct('TestOpp', contr.Id);

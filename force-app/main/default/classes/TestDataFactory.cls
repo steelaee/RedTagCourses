@@ -103,4 +103,33 @@ public class TestDataFactory {
         insert contr;
         return contr;
     }
+    public static List<Contact> createContacts(Integer numCts, String lastName, Boolean isInsert){
+        List<Contact> contactsToReturn = new List<Contact>();
+        for(Integer i = 0; i < numCts; i++){
+            contactsToReturn.add(new Contact(
+                LastName = lastName + ' ' + i
+            ));
+        }
+        
+        if(isInsert){
+            insert contactsToReturn;
+        }
+
+        return contactsToReturn;
+    }
+    public static List<Account> createAccounts(Integer numAccs, String name, String rating, Boolean isInsert){
+        List<Account> accountsToReturn = new List<Account>();
+        for(Integer i = 0; i < numAccs; i++){
+            accountsToReturn.add(new Account(
+                Name = name + ' ' + i,
+                Rating = rating
+            ));
+        }
+        
+        if(isInsert){
+            insert accountsToReturn;
+        }
+
+        return accountsToReturn;
+    }
 }

@@ -1,18 +1,33 @@
 public with sharing class CreateContractPDFController {
-    public Opportunity opp { get;set;}
-    public Contract contr {get;set;}
-    public List<OpportunityLineItem> oppProducts {get;set;}
-    public List<String> terms {get;set;}
-    public String sellerCompanyName {get;set;}
-    public String customerName {get;set;}
-    
-    public CreateContractPDFController(ApexPages.StandardController stdController){
-        Id oppId = stdController.getRecord().Id;
-        opp = [SELECT Name, ContractId FROM Opportunity WHERE Id=:oppId];
-        contr = [SELECT CustomerSignedId, CompanySignedId, SpecialTerms FROM Contract WHERE Id=: opp.ContractId LIMIT 1];
-        oppProducts = [SELECT Name, Quantity, TotalPrice FROM OpportunityLineItem WHERE OpportunityId=:oppId];
-        terms = contr.SpecialTerms.split('\n');
-        sellerCompanyName = [SELECT Name FROM User WHERE Id=:contr.CompanySignedId LIMIT 1].Name;
-        customerName = [SELECT Name FROM Contact WHERE Id=:contr.CustomerSignedId LIMIT 1].Name;
-    }
+    @AuraEnabled
+    public static Id generatePDF(Id recordId){
+        PageReference pdf = Page.CreateContractPDF;
+        pdf.getParameters().put('id', recordId);
+        
+        Blob b;
+        if(!Test.isRunningTest()){
+            b = pdf.getContentAsPdf();
+        }
+        else{
+            b = Blob.valueOf('TEST');
+        }
+
+        ContentVersion v = new ContentVersion(
+            VersionData = b,
+            Title = 'Contract',
+            PathOnClient = 'Contract.pdf'
+        );
+        insert v;
+
+        Id docId = [SELECT contentDocumentId FROM ContentVersion WHERE Id=:v.Id].contentDocumentId;
+        
+        insert new ContentDocumentLink(
+            ContentDocumentId = docId,
+            ShareType = 'I',
+            LinkedEntityId = recordId, 
+            Visibility = 'AllUsers'
+        );
+        
+        return docId;
+    } 
 }
