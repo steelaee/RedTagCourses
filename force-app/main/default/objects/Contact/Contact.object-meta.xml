@@ -198,7 +198,9 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>NewContact</actionName>
-        <type>Default</type>
+        <content>ContactForm</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>NewContact</actionName>

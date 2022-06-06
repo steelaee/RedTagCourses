@@ -1,0 +1,46 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" standardController="Opportunity"
+    extensions="CreateContractPDFController" renderAs="PDF">
+    <apex:stylesheet value="{!$Resource.contractPDFstyle}" />
+
+    <c:ContractHeaderComponent ></c:ContractHeaderComponent>
+    <h1 class="contract-between">Contract between {!customerName} and {!sellerCompanyName}</h1>
+
+    <div style="page-break-after:always">
+        <h1>{!$Label.terms}</h1>
+        <ol>
+            <apex:repeat value="{!terms}" var="term">
+                <li>
+                    <apex:outputText value="{!term}" />
+                </li>
+            </apex:repeat>
+        </ol>
+    </div>
+
+    <c:ContractHeaderComponent ></c:ContractHeaderComponent>
+    <apex:pageBlock >
+        <h2>Subject of contract:</h2>
+        <apex:pageBlockTable styleClass="table" value="{!oppProducts}" var="prod">
+            <apex:column headerClass="head" styleClass="td" value="{!prod.Name}" />
+            <apex:column headerClass="head" styleClass="td" value="{!prod.Quantity}" />
+            <apex:column headerClass="head" styleClass="td" value="{!prod.TotalPrice}" />
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+
+    <div style="padding-top:450px">
+        <div style="float:left;margin-left:50px">
+            <h3>Signature</h3>
+            <p>___________________________________</p>
+            <p>___________________________________</p>
+            <p>___________________________________</p>
+            <p style="text-align:center">{!customerName}</p>
+        </div>
+        <div style="float:right;margin-right:50px">
+            <br/>
+            <br/>
+            <p>___________________________________</p>
+            <p>___________________________________</p>
+            <p>___________________________________</p>
+            <p style="text-align:center">GuitarShop Site Guest User</p>
+        </div>
+    </div>
+</apex:page>
