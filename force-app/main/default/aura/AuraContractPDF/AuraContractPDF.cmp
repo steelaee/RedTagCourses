@@ -1,13 +1,19 @@
-<aura:component implements="lightning:hasPageReference, forceCommunity:availableForAllPageTypes, force:lightningQuickAction, force:hasRecordId, flexipage:availableForAllPageTypes" controller="GeneratePDF">
+<aura:component implements="lightning:hasPageReference, force:lightningQuickActionWithoutHeader, force:hasRecordId, flexipage:availableForAllPageTypes" controller="GeneratePDF">
     <aura:html tag="style">
         .slds-modal__footer{
-        display:none !important;
-        }      
+            display:none !important;
+        }   
+        .slds-modal__container{
+        max-width: 385px !important;
+        }
         .slds-modal__content{
-        height:initial !important;
-        max-height:400px !important;
+            height:initial !important;
+            max-height:400px !important;
         }
     </aura:html>
+    <div class="modal-header slds-modal__header">
+        <h1 class="slds-modal__title">Contract PDF has been saved</h1>
+    </div>
     <aura:attribute name='contract' type='String'/> 
     <aura:handler name="init" value="{!this}" action="{!c.savePDF}"/>
     <lightning:card>
