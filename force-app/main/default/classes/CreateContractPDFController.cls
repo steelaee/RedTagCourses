@@ -3,7 +3,7 @@ public with sharing class CreateContractPDFController {
     public static Id generatePDF(Id recordId){
         PageReference pdf = Page.CreateContractPDF;
         pdf.getParameters().put('id', recordId);
-        
+
         Blob b;
         if(!Test.isRunningTest()){
             b = pdf.getContentAsPdf();
@@ -20,14 +20,14 @@ public with sharing class CreateContractPDFController {
         insert v;
 
         Id docId = [SELECT contentDocumentId FROM ContentVersion WHERE Id=:v.Id].contentDocumentId;
-        
+
         insert new ContentDocumentLink(
             ContentDocumentId = docId,
             ShareType = 'I',
             LinkedEntityId = recordId, 
             Visibility = 'AllUsers'
         );
-        
+
         return docId;
     } 
 }

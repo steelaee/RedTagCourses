@@ -1,4 +1,4 @@
-<aura:component implements="lightning:hasPageReference, force:lightningQuickActionWithoutHeader, force:hasRecordId, flexipage:availableForAllPageTypes" controller="GeneratePDF">
+<aura:component implements="lightning:hasPageReference,force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes" controller="GeneratePDF">
     <aura:html tag="style">
         .slds-modal__footer{
             display:none !important;
