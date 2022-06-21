@@ -27,7 +27,7 @@
     </apex:pageBlock>
 
     <div style="padding-top:450px">
-        <div style="float:left;margin-left:50px">
+        <div style="float:left;margin-left:51px">
             <h3>Signature</h3>
             <p>___________________________________</p>
             <p>___________________________________</p>

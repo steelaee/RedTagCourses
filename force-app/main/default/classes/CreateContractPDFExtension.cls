@@ -6,9 +6,9 @@ public with sharing class CreateContractPDFExtension {
     public String sellerCompanyName {get;set;}
     public String customerName {get;set;}
     
-    public CreateContractPDFController(ApexPages.StandardController stdController){
+    public CreateContractPDFExtension(ApexPages.StandardController stdController){
         Id oppId = stdController.getRecord().Id;
-        opp = [SELECT Id Name, ContractId FROM Opportunity WHERE Id=:oppId];
+        opp = [SELECT Name, ContractId FROM Opportunity WHERE Id=:oppId];
         contr = [SELECT CustomerSignedId, CompanySignedId, SpecialTerms FROM Contract WHERE Id=: opp.ContractId LIMIT 1];
         oppProducts = [SELECT Name, Quantity, TotalPrice FROM OpportunityLineItem WHERE OpportunityId=:oppId];
         terms = contr.SpecialTerms.split('\n');

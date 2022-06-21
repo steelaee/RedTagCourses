@@ -1,4 +1,4 @@
-public with sharing class CreateContractPDFController {
+public with sharing class GeneratePDF {
     @AuraEnabled
     public static Id generatePDF(Id recordId){
         PageReference pdf = Page.CreateContractPDF;
