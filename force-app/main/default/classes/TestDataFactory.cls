@@ -135,6 +135,7 @@ public class TestDataFactory {
 
         return accountsToReturn;
     }
+
     public static List<Opportunity> createOppsWithSalesItems(String name, Integer numOpps, Integer siCapacity, Integer numSi){
         List<Opportunity> opps = new List<Opportunity>();
         for(Integer i = 0; i < numOpps; i++){
@@ -155,6 +156,7 @@ public class TestDataFactory {
 
         return opps;
     }
+
     public static List<Sales_Item__c> createSalesItems(String name, Integer numSalesItems, Id oppId, Boolean isInsert){
         List<Sales_Item__c> salesItems = new List<Sales_Item__c>();
 
@@ -179,5 +181,5 @@ public class TestDataFactory {
             accs.add(acc);
         }
         insert accs;
-    }
+        }
 }
