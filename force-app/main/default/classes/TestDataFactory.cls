@@ -169,7 +169,6 @@ public class TestDataFactory {
             insert salesItems;
         }
         return salesItems;
-    }
     public static void generateAccounts(Integer num, String name){
         
         List<Account> accs = new List<Account>();
