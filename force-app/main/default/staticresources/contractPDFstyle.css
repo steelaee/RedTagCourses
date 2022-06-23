@@ -1,0 +1,19 @@
+.contract-between{
+    text-align: center;
+    margin-top: 50%;
+    page-break-after: always;
+}
+.table{
+    width: 700px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.td, .head{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+@page {
+    @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+    }
+}

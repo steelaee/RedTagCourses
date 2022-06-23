@@ -1,0 +1,6 @@
+<apex:component >
+    <apex:image value="{!$Resource.redtag_logo}" width="100" height="100" />
+    <apex:outputText style="position:relative;float:right;white-space:nowrap" value="{0, date, MMMM d','  yyyy}">
+        <apex:param value="{!TODAY()}"></apex:param>
+    </apex:outputText>
+</apex:component>
