@@ -1,0 +1,10 @@
+.weather-tile{
+    display: block;
+	border: 1px solid rgb(2, 122, 217);
+	border-radius: .25rem;
+    color:black;
+	background-color: rgb(2, 122, 217);
+}
+p{
+    color: black;
+}

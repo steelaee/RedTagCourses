@@ -1,5 +1,29 @@
 <template>
-    <template for:each={weathers} for:item="weath">
-        <h1 key={weath.Id}>{weath.City_Name__c}</h1>
-    </template>
+    <lightning-card title="Weathers">
+		<div class="slds-card__body slds-card__body_inner">
+				<lightning-layout multiple-rows="true" pull-to-boundary="small">
+					<template for:each={weathers} for:item="weath">
+						<lightning-layout-item key={weath.Id} size="3" class="slds-var-p-around_x-small">
+							<lightning-card class="weather-tile">
+								<h3 slot="title">{weath.Date__c}, {weath.City_Name__c}</h3>
+								<div class="slds-var-p-horizontal_small">
+									<div class="slds-media">
+										<div class="slds-media__body">
+											<p class="slds-var-m-bottom_xx-small">City: {weath.City_Name__c}</p>
+											<p class="slds-var-m-bottom_xx-small">Temperature: {weath.Temperature__c}</p>
+											<p class="slds-var-m-bottom_xx-large">Feels like: {weath.Temp_Feels_Like__c}</p>
+										</div>
+										<div class="slds-media__body">
+											<p class="slds-var-m-bottom_xx-small">Pressure: {weath.Pressure__c}</p>
+											<p class="slds-var-m-bottom_xx-small">Wind speed: {weath.Wind_Speed__c}</p>
+											<p class="slds-var-m-bottom_xx-large">Description: {weath.Weather_Description__c}</p>
+										</div>
+									</div>
+								</div>
+							</lightning-card>
+						</lightning-layout-item>
+					</template>
+				</lightning-layout>
+		</div>
+	</lightning-card>
 </template>

@@ -1,6 +1,19 @@
 import { LightningElement, wire } from 'lwc';
-import GetAllWeatherRecords from '@salesforce/apex/GetWeatherResponse.GetAllWeatherRecords';
+import getAllWeatherRecords from '@salesforce/apex/GetWeatherResponse.getAllWeatherRecords';
 
 export default class WeatherComponent extends LightningElement {
-    @wire(GetAllWeatherRecords) weathers;
+    weathers;
+
+    connectedCallback(){
+        this.loadWeathers();
+    }
+
+    
+
+    loadWeathers(){
+        getAllWeatherRecords()
+            .then(result => {
+                this.weathers = result;
+            })
+    }
 }
