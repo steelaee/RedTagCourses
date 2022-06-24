@@ -8,8 +8,6 @@ export default class WeatherComponent extends LightningElement {
         this.loadWeathers();
     }
 
-    
-
     loadWeathers(){
         getAllWeatherRecords()
             .then(result => {

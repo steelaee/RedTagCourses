@@ -1,0 +1,44 @@
+<template>
+    <lightning-card title="Settings">
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:false={single}>
+                <p class="slds-text-heading_medium">There is no settings, but you can add them!</p>
+                <lightning-button 
+                    label="Add new weather setting" 
+                    class="slds-m-top_medium slds-button"
+                    onclick={openModal}
+                ></lightning-button>
+            </template>
+            <template if:true={single}>
+                <p>{citySettings}</p>
+                <p>{languageSettings}</p>
+            </template>
+            <template if:true={isModalOpen}>
+                <section role="dialog" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium">Set settings</h2>
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <lightning-input class="slds-m-top_medium" label="City"
+                                onchange={cityChangedHandler}></lightning-input>
+                            <lightning-input class="slds-m-top_medium" label="Language"
+                                onchange={languageChangedHandler}></lightning-input>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button class="slds-p-right_medium" style="float: right;"  label="Save" 
+                                variant="brand" onclick={createRecord}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+            </template>
+        </div>
+    </lightning-card>
+</template>
