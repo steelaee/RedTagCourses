@@ -1,0 +1,5 @@
+<apex:page >
+    <apex:image value="force-app\main\default\contentassets\salesforce-developer-network-logo.png">
+
+    </apex:image>
+</apex:page>
