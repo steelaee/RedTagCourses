@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
 import createSettings from '@salesforce/apex/WeatherController.createSettings';
 import isSettingsExists from '@salesforce/apex/WeatherController.isSettingsExists';
-import getSettingsFields from '@salesforce/apex/WeatherController.getSettingsFields';
+import getSettings from '@salesforce/apex/WeatherController.getSettings';
 
 export default class WeatherSettingsComponent extends LightningElement {
     single = false;
@@ -31,7 +31,7 @@ export default class WeatherSettingsComponent extends LightningElement {
     updateSettings(){
         isSettingsExists().then(response => {
             if(response){
-                getSettingsFields().then(result => {
+                getSettings().then(result => {
                     this.citySettings = result[0];
                     this.languageSettings = result[1];
                 });

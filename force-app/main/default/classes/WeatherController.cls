@@ -40,7 +40,7 @@ public with sharing class WeatherController {
     }
 
     @AuraEnabled
-    public static List<String> getSettingsFields(){
+    public static List<String> getSettings(){
         Weather_Setting__c settings = [
             SELECT City_Name__c, Language__c
             FROM Weather_Setting__c
