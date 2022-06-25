@@ -3,16 +3,16 @@ private with sharing class CreateTaskFormControllerTest {
     @isTest
     private static void testGetTaskSubjectValues(){
         Test.startTest();
-        Integer num = (CreateTaskFormController.getTaskSubjectValues()).size();
+        Integer num = CreateTaskFormController.getTaskSubjectValues().size();
         System.assertEquals(5, num);
         Test.stopTest();
     }
     @isTest
     private static void testCreateTask(){
         Id campaignId = '7017Q0000018gZJQAY';
-        CreateTaskFormController.createTask(campaignId, UserInfo.getUserId(), 'some description', Date.today());
 
         Test.startTest();
+        CreateTaskFormController.createTask(campaignId, UserInfo.getUserId(), 'some description', Date.today());
         List<Task> tasks = [
             SELECT Id 
             FROM Task 
