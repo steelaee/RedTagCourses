@@ -40,7 +40,7 @@ public with sharing class WeatherWrapper {
         public Integer sunrise;
         public Integer sunset;
     }
-
+    public Integer case;
     public class Main {
         public Double temp;
         public Double feels_like;
