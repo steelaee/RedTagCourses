@@ -51,9 +51,4 @@ public with sharing class WeatherWrapper {
         public Integer sea_level;
         public Integer grnd_level;
     }
-
-    public static WeatherWrapper parse(String json) {
-        WeatherWrapper result = (WeatherWrapper) System.JSON.deserialize(json, WeatherWrapper.class);
-        return result;
-    }
 }
