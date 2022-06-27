@@ -1,0 +1,35 @@
+<template>
+    <lightning-card>
+        <template if:true={exists}>
+            <lightning-record-edit-form 
+                record-id={recordId} 
+                object-api-name="Weather_Setting__c" 
+                onload={initRecordId} 
+                onsuccess={handleSuccess}
+                onerror={handleError}
+            >
+                <lightning-input-field required="true" field-name={nameField}></lightning-input-field>
+                <lightning-input-field required="true" field-name={cityNameField}></lightning-input-field>
+                <lightning-input-field required="true" field-name={languageField}></lightning-input-field>
+                <div class="slds-var-m-top_medium">
+                    <lightning-button variant="brand" type="submit" label="Save"></lightning-button>
+                </div>
+            </lightning-record-edit-form>
+        </template>
+        
+        <template if:false={exists}>
+            <lightning-record-edit-form 
+                object-api-name="Weather_Setting__c" 
+                onsuccess={handleSuccess}
+                onerror={handleError}
+            >
+                <lightning-input-field required="true" field-name={nameField}></lightning-input-field>
+                <lightning-input-field required="true" field-name={cityNameField}></lightning-input-field>
+                <lightning-input-field required="true" field-name={languageField}></lightning-input-field>
+                <div class="slds-var-m-top_medium">
+                    <lightning-button variant="brand" type="submit" label="Save"></lightning-button>
+                </div>
+            </lightning-record-edit-form>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,10 @@
+.map{
+    width: 1100px;
+    height: 590px;
+}
+.weather-tile{
+    display: block;
+    border: 2px solid rgb(2, 122, 217);
+    border-radius: 5px;
+    color: black;
+}
