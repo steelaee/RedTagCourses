@@ -1,17 +1,36 @@
-import { LightningElement, wire } from 'lwc';
-import getAllWeatherRecords from '@salesforce/apex/WeatherController.getAllWeatherRecords';
+import { LightningElement, track } from 'lwc';
+import getCityWeatherRecord from '@salesforce/apex/WeatherController.getCityWeatherRecord';
+import getLocations from '@salesforce/apex/WeatherAPIService.getLocations';
 
 export default class WeatherComponent extends LightningElement {
-    weathers;
-
+    @track mapMarkers = [];
+    weather;
+    options = [];
+    
     connectedCallback(){
-        this.loadWeathers();
-    }
+        getLocations().then(response => {
+            for(let i = 0; i < response.length; i++){
+                let marker = {
+                    location: {
+                        City: response[i]
+                    }
+                };
+                this.mapMarkers = [...this.mapMarkers, marker];
 
-    loadWeathers(){
-        getAllWeatherRecords()
-            .then(result => {
-                this.weathers = result;
-            })
+
+                
+                let option = {
+                    label: response[i],
+                    value: response[i]
+                };
+                this.options = [...this.options, option];
+            }   
+        });
+    }
+    handleChange(event){
+        let value = event.detail.value;
+        getCityWeatherRecord({city: value}).then(response => {
+            this.weather = response;
+        })
     }
 }
