@@ -4,45 +4,43 @@ import getTaskSubjectValues from '@salesforce/apex/CreateTaskFormController.getT
 import createTask from '@salesforce/apex/CreateTaskFormController.createTask';
 
 export default class CreateTaskForm extends LightningElement {
+    @api isLoaded = false;
+    @api recordId;
+    @track optionsSubject = [];
     currDueDate;
     userId;
     currDescription;
     currSubject;
-    @api recordId;
-    @api isLoaded = false;
-    @track optionsSubject;
 
     connectedCallback(){
-        this.getOptionSubject()
+        this.getSubjectOptions()
     }
     
-    getOptionSubject() {
+    getSubjectOptions() {
         getTaskSubjectValues({})
           .then((result) => {
-             let options = [];
-            if (result) {
-              result.forEach(r => {
-                options.push({
-                  label: r,
-                  value: r,
-                });
-              });
-            }
-            this.optionsSubject = options;
+            result.map((el) => {
+                let option = {
+                    label: el,
+                    value: el
+                };
+                this.optionsSubject = [...this.optionsSubject, option];
+            });
         });
     }
     assignedToHandler(event){
         this.userId = event.target.value;
     }
-    dueDateChangedHandler(event){
+    handleDueDateInputChange(event){
         this.currDueDate = event.target.value;
     }
-    descriptionChangedHandler(event){
+    handleDescriptionInputChange(event){
         this.currDescription = event.target.value;
     }
-    subjectChangedHandler(event){
+    handleSubjectInputChange(event){
         this.currSubject = event.target.value;
     }
+
     validateFields(){
         let isValid = true;
         let inputFields = this.template.querySelectorAll('.validate');
@@ -61,6 +59,16 @@ export default class CreateTaskForm extends LightningElement {
 
         return isValid;
     }
+
+    showToast(title, message, variant){
+        const toast = new ShowToastEvent({
+            title: title,
+            message: message,
+            variant: variant,
+        });
+        this.dispatchEvent(toast);
+    }
+
     createRecord(){
         this.isLoaded = true;
 
@@ -74,20 +82,9 @@ export default class CreateTaskForm extends LightningElement {
             'description':this.currDescription, 
             'dueDate':this.currDueDate
         }).then(()=>{
-            const toast = new ShowToastEvent({
-                title: 'Success!',
-                message: 'New Task record has been created successfully.',
-                variant: 'success',
-            });
-            this.dispatchEvent(toast);
+            this.showToast('Success!', Label.successful_task_creation, 'success');
         }).catch(error=>{
-            console.log(error);
-            const toast = new ShowToastEvent({
-                title: 'Error!',
-                message: 'New Task record has not been created successfully.',
-                variant: 'error',
-            });
-            this.dispatchEvent(toast);
+            this.showToast('Error!', Label.error_task_creation, 'error');
         }).finally(()=>{
             this.isLoaded = false;
         });
