@@ -18,7 +18,7 @@ export default class WeatherComponent extends LightningElement {
     
     connectedCallback(){
         getSettings().then(response => {
-            response.map((el) => {
+            this.mapMarkers =  response.map((el) => {
                 let marker = {
                     location: {
                         City: el.City_Name__c,
@@ -27,8 +27,9 @@ export default class WeatherComponent extends LightningElement {
                     },
                     value: el.City_Name__c
                 };
-                this.mapMarkers = [...this.mapMarkers, marker];
+                return marker;
             });
+            console.log(this.mapMarkers);
         });
     }
 
@@ -38,7 +39,7 @@ export default class WeatherComponent extends LightningElement {
         getCityWeatherRecords({city:this.currentCity}).then(response => {
             this.weather = response[0];
 
-            response.map((weath) => {
+            this.data =  response.map((weath) => {
                 let el ={
                     cityName: weath.City_Name__c,
                     date: weath.Date__c,
@@ -47,7 +48,7 @@ export default class WeatherComponent extends LightningElement {
                     temperatureFeelsLike: weath.Temp_Feels_Like__c,
                     windSpeed: weath.Wind_Speed__c
                 };
-                this.data = [...this.data, el];
+                return el;
             });
         })
     }

@@ -10,9 +10,11 @@
 
 			<lightning-tabset>
 				<lightning-tab label="Today weather">
-					<template if:true={weather}>
-						<c-weather-card weather={weather}></c-weather-card>
-					</template>
+					<lightning-layout class="slds-m-left_small" multiple-rows="true">
+						<template if:true={weather}>
+							<c-weather-card weather={weather}></c-weather-card>
+						</template>
+					</lightning-layout>
 				</lightning-tab>
 				<lightning-tab label="Weather history">
 					<template if:true={currentCity}>
