@@ -6,11 +6,12 @@ public with sharing class WeatherControllerTest {
             City_Name__c = 'TestCity'
         );
     }
+
     @isTest
     static void getCityWeatherRecordsTest(){
         Test.startTest();
 
-        System.assertEquals('TestCity', WeatherController.getCityWeatherRecord('TestCity').City_Name__c);
+        System.assertEquals('TestCity', WeatherController.getCityWeatherRecords('TestCity')[0].City_Name__c);
 
         Test.stopTest();
     }

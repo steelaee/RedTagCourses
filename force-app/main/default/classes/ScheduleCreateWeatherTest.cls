@@ -4,20 +4,35 @@ public with sharing class ScheduleCreateWeatherTest {
     static void executeTest(){
         Test.startTest();
 
-        String chron = '0 0 0 9 9 ? 2022';        
-        System.schedule('Test Sched', chron, new ScheduleCreateWeather());
+        String jobId = System.schedule('Test Schedule', ScheduleCreateWeather.cron, new ScheduleCreateWeather());
 
-        Integer settingsNum = [
-            SELECT Id 
-            FROM Weather_Setting__c
-        ].size();
+        CronTrigger ct = [
+            SELECT CronExpression, TimesTriggered
+            FROM CronTrigger
+            WHERE Id =: jobId
+        ];
 
-        Integer weathersNum = [
-            SELECT Id 
-            FROM Weather__c
-        ].size();
+        System.assertEquals(ScheduleCreateWeather.cron, ct.CronExpression);
+        System.assertEquals(0, ct.TimesTriggered);
+        
+        Test.stopTest();
+    }
 
-        System.assertEquals(settingsNum, weathersNum);
+    @isTest
+    static void scheduleDailyAt12AMTest(){
+        Test.startTest();
+
+        String jobId = ScheduleCreateWeather.schedule();
+
+        CronTrigger ct = [
+            SELECT CronExpression, TimesTriggered
+            FROM CronTrigger
+            WHERE Id =: jobId
+        ];
+
+        System.assertEquals(ScheduleCreateWeather.cron, ct.CronExpression);
+        System.assertEquals(0, ct.TimesTriggered);
+
         Test.stopTest();
     }
 }

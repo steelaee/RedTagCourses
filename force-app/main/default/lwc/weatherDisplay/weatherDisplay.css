@@ -1,15 +1,5 @@
 .map{
-    width: 1100px;
     height: 590px;
-}
-.weather-tile{
-    margin-top: 10px;
-    margin-left: 16px;
-    display: block;
-    border: 2px solid rgb(2, 122, 217);
-    border-radius: 5px;
-    color: black;
-}
-.combo{
-    width: 360px;
+    margin-left: 10px;
+    margin-right: 10px;
 }

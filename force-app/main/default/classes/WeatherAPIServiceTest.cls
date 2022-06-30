@@ -9,14 +9,20 @@ public with sharing class WeatherAPIServiceTest {
     }
 
     @isTest
-    static void getLocationsTest(){
-        List<String> cities = WeatherAPIService.getLocations();
-
+    static void getSettingsTest(){
         Test.startTest();
 
-        System.assertEquals('Osaka', cities[0]);
+        List<Weather_Setting__c> weathers = WeatherAPIService.getSettings();
         
+        List<Weather_Setting__c> weathersFromQuery = [
+            SELECT City_Name__c
+            FROM Weather_Setting__c
+        ];
+
+        System.assertEquals(weathers, weathersFromQuery);
+
         Test.stopTest();
+
     }
 
     @isTest
@@ -33,20 +39,21 @@ public with sharing class WeatherAPIServiceTest {
 
     @isTest
     static void createWeathersTest(){
-        Test.startTest();
+        List<WeatherWrapper> wrappers = new List<WeatherWrapper>();
+
         WeatherWrapper wrapper = new WeatherWrapper();
         wrapper.name = 'Osaka';
-        wrapper.Main.humidity = 1;
-        wrapper.Coord.lat = 1;
-        wrapper.Coord.lon = 1;
-        wrapper.Main.pressure = 1;
-        wrapper.Main.feels_like = 1;
-        wrapper.Main.temp = 1;
-        wrapper.Wind.speed = 1;
+        wrapper.main.humidity = 1;
+        wrapper.coord.lat = 1;
+        wrapper.coord.lon = 1;
+        wrapper.main.pressure = 1;
+        wrapper.main.feels_like = 1;
+        wrapper.main.temp = 1;
+        wrapper.wind.speed = 1;
 
-        List<WeatherWrapper> wrappers = new List<WeatherWrapper>();
         wrappers.add(wrapper);
 
+        Test.startTest();
         WeatherAPIService.createWeathers(wrappers);
 
         Weather__c weather = [

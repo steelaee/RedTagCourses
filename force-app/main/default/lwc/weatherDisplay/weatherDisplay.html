@@ -1,49 +1,31 @@
 <template>
     <lightning-card>
-		<lightning-layout multiple-rows="true">
-			<lightning-map 
+			<lightning-map
 			class="map"
 			map-markers={mapMarkers}
-			list-view="hidden"
+			list-view="visible"
+			onmarkerselect={markerSelect}
 			>
-			  
 			</lightning-map>
-			
-			<div>
-				<lightning-combobox
-				class="slds-m-left_medium combo"
-				label="Markers"
-				options={options}
-				onchange={handleChange}>
 
-				</lightning-combobox>
-				<template if:true={weather}>
-					<lightning-card class="weather-tile">
-						<h3 slot="title">{weather.Date__c}</h3>
-						<div class="slds-var-p-horizontal_small">
-						  <div class="slds-media">
-							<div class="slds-media__body">
-							  <p class="slds-var-m-bottom_xx-small">Temperature: {weather.Temperature__c}</p>
-							  <p class="slds-var-m-bottom_xx-small">Feels like: {weather.Temp_Feels_Like__c}</p>
-							  <p class="slds-var-m-bottom_xx-small">Pressure: {weather.Pressure__c}</p>
-							</div>
-							<div class="slds-media__body">
-							  <p class="slds-var-m-bottom_xx-small">Wind speed: {weather.Wind_Speed__c}</p>
-							  <p class="slds-var-m-bottom_xx-small">Description: {weather.Weather_Description__c}</p>
-							</div>
-						  </div>
-						</div>
-					  </lightning-card>
-				</template>
-			</div>
-		</lightning-layout>
-      <br/>
-      <lightning-layout multiple-rows="true" pull-to-boundary="small">
-        <template for:each={weathers} for:item="weather">
-          <lightning-layout-item key={weather.Id} size="3" class="slds-var-p-around_x-small">
-           
-          </lightning-layout-item>
-        </template>
-      </lightning-layout>
+			<lightning-tabset>
+				<lightning-tab label="Today weather">
+					<template if:true={weather}>
+						<c-weather-card weather={weather}></c-weather-card>
+					</template>
+				</lightning-tab>
+				<lightning-tab label="Weather history">
+					<template if:true={currentCity}>
+						<lightning-datatable
+						key-field="cityName"
+						columns={columns}
+						data={data}
+						hide-checkbox-column="true"
+						is-loading="true">
+
+						</lightning-datatable>
+					</template>
+				</lightning-tab>
+			</lightning-tabset>
   </lightning-card>
 </template>

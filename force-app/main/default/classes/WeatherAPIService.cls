@@ -1,15 +1,5 @@
 public with sharing class WeatherAPIService {
     @AuraEnabled
-    public static List<String> getLocations(){
-        List<Weather_Setting__c> settings = getSettings();
-
-        List<String> cities = new List<String>();
-        for(Weather_Setting__c setting : settings){
-            cities.add(setting.City_Name__c);
-        }
-        
-        return cities;
-    }
     public static List<Weather_Setting__c> getSettings(){
         List<Weather_Setting__c> settings = [
             SELECT City_Name__c, Language__c
@@ -21,20 +11,26 @@ public with sharing class WeatherAPIService {
     public static List<WeatherWrapper> getWeathers(List<Weather_Setting__c> settings){
         List<WeatherWrapper> results = new List<WeatherWrapper>();
         Get_Weather_Setting__mdt mdt = Get_Weather_Setting__mdt.getInstance('My_Api');
-        Http http = new Http();
         HttpRequest req = new HttpRequest();
-        req.setMethod('GET');
         String url;
         HTTPResponse response;
+
+        req.setMethod('GET');
 
         for(Weather_Setting__c setting : settings){
             url = mdt.Endpoint__c + setting.City_Name__c + '&appid=' + mdt.Api_Id__c + setting.Language__c;
             req.setEndpoint(url);
-            response = http.send(req);
+            response = sendRequest(req);
             results.add((WeatherWrapper) System.JSON.deserialize(response.getBody(), WeatherWrapper.class));
         }
         return results;
     }
+
+    static HTTPResponse sendRequest(HttpRequest request){
+        Http http = new Http();
+        return http.send(request);
+    }
+
     public static void createWeathers(List<WeatherWrapper> results){
         List<Weather__c> weathers = new List<Weather__c>();
         for(WeatherWrapper result : results){

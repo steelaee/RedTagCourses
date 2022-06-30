@@ -1,10 +1,10 @@
 public with sharing class WeatherWrapper {
-    public Coord coord;
+    public Coord coord = new Coord();
     public List<Weather> weather;
     public String base;
-    public Main main;
+    public Main main = new Main();
     public Integer visibility;
-    public Wind wind;
+    public Wind wind = new Wind();
     public Clouds clouds;
     public String dt;
     public Sys sys;
@@ -13,9 +13,6 @@ public with sharing class WeatherWrapper {
     public String name;
     public Integer cod;
 
-    public WeatherWrapper(){
-        
-    }
     public class Weather {
         public Integer id;
         public String main;
