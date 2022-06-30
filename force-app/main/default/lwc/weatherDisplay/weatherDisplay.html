@@ -1,0 +1,31 @@
+<template>
+    <lightning-card>
+			<lightning-map
+			class="map"
+			map-markers={mapMarkers}
+			list-view="visible"
+			onmarkerselect={markerSelect}
+			>
+			</lightning-map>
+
+			<lightning-tabset>
+				<lightning-tab label="Today weather">
+					<template if:true={weather}>
+						<c-weather-card weather={weather}></c-weather-card>
+					</template>
+				</lightning-tab>
+				<lightning-tab label="Weather history">
+					<template if:true={currentCity}>
+						<lightning-datatable
+						key-field="cityName"
+						columns={columns}
+						data={data}
+						hide-checkbox-column="true"
+						is-loading="true">
+
+						</lightning-datatable>
+					</template>
+				</lightning-tab>
+			</lightning-tabset>
+  </lightning-card>
+</template>
