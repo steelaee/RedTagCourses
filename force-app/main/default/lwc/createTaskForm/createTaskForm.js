@@ -19,12 +19,13 @@ export default class CreateTaskForm extends LightningElement {
     getSubjectOptions() {
         getTaskSubjectValues({})
           .then((result) => {
-            result.map((el) => {
+            this.optionsSubject = result.map((el) => {
                 let option = {
                     label: el,
                     value: el
                 };
-                this.optionsSubject = [...this.optionsSubject, option];
+                
+                return option;
             });
         });
     }

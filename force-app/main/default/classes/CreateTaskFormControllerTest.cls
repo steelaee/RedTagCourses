@@ -3,17 +3,20 @@ private with sharing class CreateTaskFormControllerTest {
     @isTest
     private static void testGetTaskSubjectValues(){
         Test.startTest();
+
+        Schema.DescribeFieldResult field = Task.Subject.getDescribe();
+        List<Schema.PicklistEntry> ple = field.getPicklistValues();
+        List<String> fieldValues = new List<String>();
+        for( Schema.PicklistEntry pickListVal : ple){
+            fieldValues.add(pickListVal.getLabel());
+        }     
+
         Integer num = CreateTaskFormController.getTaskSubjectValues().size();
-        System.assertEquals(5, num);
+        System.assertEquals(fieldValues.size(), num);
         Test.stopTest();
     }
     @isTest
     private static void testCreateTask(){
-        Id campaignId = [
-            SELECT Id 
-            FROM Campaign
-            LIMIT 1
-        ].Id;
 
         Profile p = [
             SELECT Id 
@@ -32,14 +35,22 @@ private with sharing class CreateTaskFormControllerTest {
             UserName= 'uniqueUserName123123123'
         );
 
+        
+        Campaign cgn = new Campaign(
+            Name = 'TestCampaign'
+        );
+
         Test.startTest();
+        insert cgn;
         insert u;
-        CreateTaskFormController.createTask(campaignId, u.Id, 'some description', Date.today());
+
+        CreateTaskFormController.createTask(cgn.Id, u.Id, 'some description', Date.today());
         List<Task> tasks = [
             SELECT Id 
             FROM Task 
-            WHERE WhatId=:campaignId AND OwnerId=:u.Id AND ActivityDate=: Date.today()
+            WHERE WhatId=:cgn.Id AND OwnerId=:u.Id AND ActivityDate=: Date.today()
         ];
+        
         System.assertEquals(1, tasks.size());
         Test.stopTest();
     }
