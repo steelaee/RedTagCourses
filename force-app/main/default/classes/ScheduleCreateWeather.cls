@@ -1,16 +1,30 @@
-global with sharing class ScheduleCreateWeather implements Schedulable, Database.Batchable<sObject>,   Database.AllowsCallouts  {
+global with sharing class ScheduleCreateWeather implements Schedulable, Database.Batchable<sObject>, Database.Stateful, Database.AllowsCallouts{
     @TestVisible
     private static final String cron = '0 0 12 1/1 * ? *';
-
+   
     global Database.QueryLocator start(Database.BatchableContext bc){
-        return Database.QueryLocator(query);
+        String query = 'SELECT City_Name__c, Language__c FROM Weather_Setting__c';
+        return Database.getQueryLocator(query);
+    }
+
+    global void execute(Database.BatchableContext bc, List<Weather_Setting__c> scope){
+        List<Weather__c> weathersToInsert = new List<Weather__c>();
+        for(sObject setting : scope){
+            WeatherWrapper wr = WeatherAPIService.getWeather((Weather_Setting__c)setting);
+            weathersToInsert.add(wr.parseToWeather());
+        }
+        insert weathersToInsert;
+    }
+    
+    global void finish(Database.BatchableContext info){     
     }
 
     global void execute(SchedulableContext sc){
-        List<Weather_Setting__c> settings = WeatherAPIService.getSettings();
-        List<WeatherWrapper> wr = WeatherAPIService.getWeathers(settings);
-        WeatherAPIService.createWeathers(wr);
+        ScheduleCreateWeather scw = new ScheduleCreateWeather();
+
+        Database.executeBatch(scw);
     }
+    
     public static String schedule(){
         ScheduleCreateWeather w = new ScheduleCreateWeather();
 

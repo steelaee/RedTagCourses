@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Weather API</label>
+    <protected>false</protected>
+    <values>
+        <field>Api_Id__c</field>
+        <value xsi:type="xsd:string">07e676cc2e56bb333fef2dc4a8dc1738&amp;</value>
+    </values>
+    <values>
+        <field>Endpoint__c</field>
+        <value xsi:type="xsd:string">https://api.openweathermap.org/data/2.5/weather?q=</value>
+    </values>
+</CustomMetadata>

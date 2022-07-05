@@ -50,4 +50,24 @@ public with sharing class WeatherWrapper {
         public Integer sea_level;
         public Integer grnd_level;
     }
+
+    public static WeatherWrapper parseJSON(String jsonString){
+        return ((WeatherWrapper) System.JSON.deserialize(jsonString, WeatherWrapper.class));
+    }
+
+    public Weather__c parseToWeather(){
+        Weather__c weather = new Weather__c(
+            City_Name__c = name,
+            Date__c = System.today(),
+            Humidity__c = Main.humidity,
+            Latitude__c = Coord.lat,
+            Longitude__c = Coord.lon,
+            Pressure__c = Main.pressure,
+            Temp_Feels_Like__c = Main.feels_like,
+            Temperature__c = Main.temp,
+            Wind_Speed__c = Wind.speed
+        );
+        
+        return weather;
+    }
 }
