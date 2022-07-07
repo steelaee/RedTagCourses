@@ -29,6 +29,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AccountTriggerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AddPrimaryContact</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -77,6 +81,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContractPDFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateContractPDFController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -90,6 +98,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CreateTaskFormControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CreateTaskFormExtenstion</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -113,15 +125,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GetPictures</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>LeadProcessor</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>LeadProcessorTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyTestFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -149,7 +161,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ScheduleCreateWeatherTest</apexClass>
+        <apexClass>SalesItemTriggerHandlerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1046,11 +1058,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>false</editable
         <field>Case_Update__e.User_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <fieldPermissions
         <editable>true</editable>
         <field>ChangeRequest.BusinessJustification</field>
         <readable>true</readable>
@@ -4402,6 +4414,17 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>StationCheck</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+        <apexPage>DisplayImage</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>StationCheck</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>testpage</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

@@ -1,7 +1,7 @@
 ({
     generatePDFHelper : function(component) {
         var action = component.get('c.generatePDF');
-        action.setParams({
+        action.setParams({ 
             "recordId": component.get("v.recordId")
         });
         action.setCallback(this, function(response){
