@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Create Task">
+        <lightning-layout>
+            <lightning-layout-item if:false={isLoaded} size="12">
+                <lightning-input class="slds-p-horizontal_medium validate" label="Due Date" type="date" name="taskDueDate" 
+                    onchange={handleDueDateInputChange} required="true"></lightning-input>
+                <lightning-input class="slds-p-horizontal_medium validate" label="Description" name="taskDescription" 
+                    onchange={handleDescriptionInputChange} required="true"></lightning-input>
+                <lightning-combobox class="slds-p-horizontal_medium validate" options={optionsSubject} label="Subject" name="taskSubject" 
+                    onchange={handleSubjectInputChange} required="true"></lightning-combobox>
+        
+                <lightning-record-edit-form object-api-name="TaskUtility__c">
+                    <lightning-input-field required="true" class="slds-p-horizontal_medium validateLookup" field-name="AssignedTo__c" onchange={assignedToHandler}></lightning-input-field>
+                </lightning-record-edit-form>
+        
+                <lightning-button class="slds-p-right_medium slds-float_right" label="Save" variant="brand" 
+                    onclick={createRecord}></lightning-button>
+            </lightning-layout-item>
+            <lightning-layout-item if:true={isLoaded}>
+                <lightning-spinner alternative-text="Loading..." variant="brand">
+                </lightning-spinner>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

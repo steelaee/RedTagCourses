@@ -1,5 +1,5 @@
 <apex:page sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" standardController="Opportunity"
-    extensions="CreateContractPDFController" renderAs="PDF">
+    extensions="CreateContractPDFExtension" renderAs="PDF">
     <apex:stylesheet value="{!$Resource.contractPDFstyle}" />
 
     <c:ContractHeaderComponent ></c:ContractHeaderComponent>

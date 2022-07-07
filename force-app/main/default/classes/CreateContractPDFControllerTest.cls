@@ -2,7 +2,7 @@
 public with sharing class CreateContractPDFControllerTest {
     @isTest
     private static void createPDFControllerTest(){
-        User u = TestDataFactory.createUser('testaskofifjpoaisdf@test.com');
+        User u = TestDataFactory.createUser('testaskofifjpohgfaisdf@test.com');
 
         Contact ct = TestDataFactory.createContacts(1, 'TestContact', true)[0];
 
