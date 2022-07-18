@@ -12,12 +12,30 @@ public with sharing class CaseService {
         List<Case_Create__e> events = new List<Case_Create__e>();
 
         for(Case cs : cases){
-            events.add(new Case_Create__e(
+            eventList.add(new Case_Create__e(
                 Branch_Number__c = cs.Branch_Number__c
             ));
         }
         
-        eventList.addAll(events);
-        EventBus.publish(events);
+        EventBus.publish(eventList);
+    }
+    
+    @AuraEnabled
+    public static List<Case> getCases(String branchNum) {
+        return [
+            SELECT Id, CaseNumber, Status, CreatedDate, Type, Subject, Branch_Number__c
+            FROM Case
+            WHERE Branch_Number__c =: branchNum
+            ORDER BY CreatedDate
+        ];
+    }
+    
+    @AuraEnabled
+    public static void changeCaseStatus(String caseId){
+        Case cs = new Case();
+        cs.Id = caseId;
+        cs.Status = 'In Progress';
+        
+        update cs;
     }
 }
