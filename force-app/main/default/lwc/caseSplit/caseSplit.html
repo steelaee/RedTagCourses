@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-grid">
+        <div data-id="table-div" class="slds-col slds-p-horizontal_small">
+            <lightning-datatable
+                key-field="num"
+                data={cases}
+                columns={columns}
+                hide-checkbox-column="true"
+                onrowaction={handleNumClick}>
+
+            </lightning-datatable>
+            <template if:true={isLoading}>
+                <lightning-spinner variant="brand" size="medium"></lightning-spinner>
+            </template>
+        </div>
+        <template if:true={caseOpened}>
+            <div class="slds-col slds-size_1-of-3 slds-p-horizontal_small">
+                <lightning-card title="Case">
+                    <lightning-record-view-form
+                    object-api-name="Case"
+                    record-id={selectedCaseId}> 
+                        <div class="slds-box">
+                            <lightning-output-field field-name="Subject"></lightning-output-field>
+                            <lightning-output-field field-name="CaseNumber"></lightning-output-field>
+                            <lightning-output-field field-name="Type"></lightning-output-field>
+                            <lightning-output-field field-name="Status"></lightning-output-field>
+                            <lightning-output-field field-name="Branch_Number__c"></lightning-output-field>
+                            <lightning-output-field field-name="CreatedDate"></lightning-output-field>
+                        </div>
+                    </lightning-record-view-form>
+                    <lightning-button label="Close" onclick={handleCloseClick} class="slds-m-around_small slds-m-top_small"></lightning-button>
+                </lightning-card>
+            </div>
+        </template>
+    </div>
+</template>
